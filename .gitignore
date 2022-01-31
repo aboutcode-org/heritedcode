@@ -61,6 +61,7 @@ pyvenv.cfg
 .ve
 *.bak
 /.cache/
+__pycache__
 
 # pyenv
 /.python-version
