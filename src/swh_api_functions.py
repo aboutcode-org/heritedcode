@@ -12,12 +12,12 @@ import requests
 
 base_swh_api_url = "https://archive.softwareheritage.org/api/1/"
 
-"""
-this function returns information like checksums, data_url, file_url, license_url
-based on hash_type and hash as a json object
-"""
-
 def get_content_information(hash_type, hash):
+
+    """
+    this function returns information like checksums, data_url, file_url, license_url
+    based on hash_type and hash as a json object
+    """
     api = f"{base_swh_api_url}content/{hash_type}:{hash}/"
     response = requests.get(api)
     return response.json()
