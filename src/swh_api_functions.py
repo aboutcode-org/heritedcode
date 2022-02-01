@@ -10,7 +10,11 @@
 
 import requests
 
-base_swh_api_url = "https://archive.softwareheritage.org/api/1/"
+# class to genrate our own custom response
+from custom_api_response import CustomApiResponse
+
+BASE_SWH_API_URL = "https://archive.softwareheritage.org/api/1/"
+
 
 def get_content_information(hash_type, hash):
 
@@ -18,6 +22,8 @@ def get_content_information(hash_type, hash):
     this function returns information like checksums, data_url, file_url, license_url
     based on hash_type and hash as a json object
     """
-    api = f"{base_swh_api_url}content/{hash_type}:{hash}/"
+    api = f"{BASE_SWH_API_URL}content/{hash_type}:{hash}/"
     response = requests.get(api)
-    return response.json()
+    response = response.json()
+    custom_response = CustomApiResponse(response)
+    return custom_response
