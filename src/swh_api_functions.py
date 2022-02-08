@@ -7,22 +7,34 @@
 # See https://aboutcode.org for more information about nexB OSS projects.
 #
 
-
 import requests
 
-# class to genrate our own custom response
-from custom_api_response import CustomApiResponse
+class CustomApiResponse:
+    """
+    this class represents response data structure for returning response
+    from functions.
+    """
+
+    def __init__(self, data):
+        for key, value in data.items():
+            setattr(self, key, value)
+
+    def __eq__(self, second_class_obj):
+        if isinstance(second_class_obj, CustomApiResponse):
+            for key in vars(self):
+                if getattr(self, key) != getattr(second_class_obj, key):
+                    return False
+            return True
+        return False
 
 BASE_SWH_API_URL = "https://archive.softwareheritage.org/api/1/"
 
-
-def get_content_information(hash_type, hash):
-
+def get_content_information(checksum_type, checksum):
     """
-    this function returns information like checksums, data_url, file_url, license_url
-    based on hash_type and hash as a json object
+    Makes call to Software Heritage api to fetch information like checksum, data_url
+    file_url etc.
     """
-    api = f"{BASE_SWH_API_URL}content/{hash_type}:{hash}/"
+    api = f"{BASE_SWH_API_URL}content/{checksum_type}:{checksum}/"
     response = requests.get(api)
     response = response.json()
     custom_response = CustomApiResponse(response)

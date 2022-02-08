@@ -12,16 +12,12 @@ import json
 import pytest
 from src import swh_api_functions
 
-# class to genrate our own custom response
-from custom_api_response import CustomApiResponse
-
 BASE_SWH_API_URL = "https://archive.softwareheritage.org/api/1/"
-
 
 def test_get_content_information(requests_mock):
     # input data
-    hash_type = "sha1_git"
-    hash = "fe95a46679d128ff167b7c55df5d02356c5a1ae1"
+    checksum_type = "sha1_git"
+    checksum = "fe95a46679d128ff167b7c55df5d02356c5a1ae1"
     # output data
     json_output = {
         "checksums": {
@@ -37,12 +33,12 @@ def test_get_content_information(requests_mock):
         "license_url": "https://archive.softwareheritage.org/api/1/content/sha1_git:fe95a46679d128ff167b7c55df5d02356c5a1ae1/license/",
         "status": "visible",
     }
-    custom_expected_output = CustomApiResponse(json_output)
+    custom_expected_output = swh_api_functions.CustomApiResponse(json_output)
 
-    api = f"{BASE_SWH_API_URL}content/{hash_type}:{hash}/"
+    api = f"{BASE_SWH_API_URL}content/{checksum_type}:{checksum}/"
     requests_mock.get(api, json=json_output)
 
     assert (
-        swh_api_functions.get_content_information(hash_type, hash)
+        swh_api_functions.get_content_information(checksum_type, checksum)
         == custom_expected_output
     )
