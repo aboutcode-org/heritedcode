@@ -16,8 +16,17 @@ class CustomApiResponse:
     """
 
     def __init__(self, data):
-        for key, value in data.items():
-            setattr(self, key, value)
+        self.checksums = None
+        self.data_url = None
+        self.filetype_url = None
+        self.language_url = None
+        self.length = None
+        self.license_url = None
+        self.status = None
+
+        for key in vars(self):
+            if key in data:
+                setattr(self, key, data[key])
 
     def __eq__(self, second_class_obj):
         if isinstance(second_class_obj, CustomApiResponse):
