@@ -33,6 +33,7 @@ def test_get_content_information(requests_mock):
         "length": 151810,
         "license_url": "https://archive.softwareheritage.org/api/1/content/sha1_git:fe95a46679d128ff167b7c55df5d02356c5a1ae1/license/",
         "status": "visible",
+        "status_code":200
     }
     expected_output = heritedcode_api_functions.ApiResponse.from_swh(
         json_output["checksums"],
@@ -43,7 +44,6 @@ def test_get_content_information(requests_mock):
         json_output["license_url"],
         json_output["status"],
     )
-
     api = f"{BASE_SWH_API_URL}content/{checksum_type}:{checksum}/"
     requests_mock.get(api, json=json_output)
 
