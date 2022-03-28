@@ -13,8 +13,7 @@ import json
 
 class ApiResponse:
     """
-    this class represents response data structure for returning response
-    from functions.
+    This class represents SWH API response data structure
     """
 
     def __init__(
@@ -27,17 +26,21 @@ class ApiResponse:
         license_url,
         status,
     ):
-        """represents diffrent type of checksums like sha1,sha1_git and their values"""
+        # represents diffrent type of checksums like sha1,sha1_git and their values
         self.checksums = checksums
-        """represents data url for available raw data of any code"""
+        # URL to download content raw bytes
+        # for example: https://archive.softwareheritage.org/api/1/content/sha1:0001c9f21990e5c61dd92f6a4a93d306987a1a31/raw/
         self.data_url = data_url
-        """represents url to get mime type of a file like text/x-c etc."""
+        # URL to get mime type of file like text etc.
+        # for example: https://archive.softwareheritage.org/api/1/content/sha1:dc2830a9e72f23c1dfebef4413003221baa5fb62/filetype/
         self.filetype_url = filetype_url
-        """represents url to get language of a file like text/c/c++ etc."""
+        # URL to get language of file like text/c++/python etc.
+        # for example: https://archive.softwareheritage.org//api/1/content/sha1:dc2830a9e72f23c1dfebef4413003221baa5fb62/language/
         self.language_url = language_url
-        """represents length of the file"""
+        # represents length of the file
         self.length = length
-        """represents url to get license of a file"""
+        # URL to download license
+        # for example: https://archive.softwareheritage.org//api/1/content/sha1:dc2830a9e72f23c1dfebef4413003221baa5fb62/license/
         self.license_url = license_url
         self.status = status
 
@@ -48,10 +51,6 @@ class ApiResponse:
                     return False
             return True
         return False
-
-    """
-    Returns an instance of ApiResponse class.
-    """
 
     @classmethod
     def from_swh(
@@ -64,8 +63,17 @@ class ApiResponse:
         license_url,
         status,
     ):
+        """
+        Return an instance of ApiResponse class.
+        """
         return cls(
-            checksums, data_url, filetype_url, language_url, length, license_url, status
+            checksums=checksums,
+            data_url=data_url,
+            filetype_url=filetype_url,
+            language_url=language_url,
+            length=length,
+            license_url=license_url,
+            status=status,
         )
 
 
@@ -74,11 +82,11 @@ BASE_SWH_API_URL = "https://archive.softwareheritage.org/api/1/"
 
 def get_content_information(checksum_type, checksum):
     """
-    Returns a class object with attributes like checksum, data_url, file_url etc. based on checksum_type and checksum.
+    Return an ApiResponse object given a checksum_type and a cheksum value
     """
     assert (
         type(checksum_type) == str and type(checksum) == str
-    ), "checksum_type and checksum must be string"
+    ), f"checksum_type: {checksum_type!r} and {checksum!r} must be strings, not {type(checksum_type)!r} and {type(checksum)!r}"
 
     api = f"{BASE_SWH_API_URL}content/{checksum_type}:{checksum}/"
     response = requests.get(api)
@@ -87,12 +95,12 @@ def get_content_information(checksum_type, checksum):
     assert status_code != 400, "an invalid hash_type or hash has been provided"
     assert status_code != 404, "requested content can not be found in the archive"
     response_object = ApiResponse.from_swh(
-        response.get("checksums"),
-        response.get("data_url"),
-        response.get("filetype_url"),
-        response.get("language_url"),
-        response.get("length"),
-        response.get("license_url"),
-        response.get("status"),
+        checksums=response["checksums"],
+        data_url=response["data_url"],
+        filetype_url=response["filetype_url"],
+        language_url=response["language_url"],
+        length=response["length"],
+        license_url=response["license_url"],
+        status=response["status"],
     )
     return response_object
