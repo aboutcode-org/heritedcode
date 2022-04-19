@@ -52,6 +52,10 @@ class ApiResponse:
             return True
         return False
 
+    """
+    Returns an instance of ApiResponse class.
+    """
+
     @classmethod
     def from_swh(
         cls,
