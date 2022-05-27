@@ -1,2 +1,1 @@
-requests
-requests_mock
+requests-mock==1.9.3
