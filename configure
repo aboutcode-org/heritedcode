@@ -62,9 +62,9 @@ NO_INDEX=""
 ################################
 # Thirdparty package locations and index handling
 # Find packages from the local thirdparty directory if present
-thirddir=$CFG_ROOT_DIR/thirdparty
-if [[ "$(echo $thirddir/*.whl)x" != "$thirddir/*.whlx" ]]; then
-    PIP_EXTRA_ARGS="$NO_INDEX --find-links $CFG_ROOT_DIR/thirdparty"
+THIRDPARDIR=$CFG_ROOT_DIR/thirdparty
+if [[ "$(echo $THIRDPARDIR/*.whl)x" != "$THIRDPARDIR/*.whlx" ]]; then
+    PIP_EXTRA_ARGS="$NO_INDEX --find-links $THIRDPARDIR"
 fi
 
 
