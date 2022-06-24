@@ -104,3 +104,22 @@ def get_content_information(checksum_type, checksum):
         status=response["status"],
     )
     return response_object
+
+
+def is_origin_present(origin_url):
+    """
+    Return a boolean flag if given origin is present in SWH archive.
+    """
+    assert (
+        type(origin_url) == str
+    ), f"origin_url: {origin_url!r} must be string, not {type(origin_url)!r}."
+
+    api = f"{BASE_SWH_API_URL}origin/search/{origin_url}?limit=1"
+    response = requests.get(api)
+    status_code = response.status_code
+    assert status_code == 200, "An error occurred while making a request"
+    response = response.json()
+
+    if response and response[0].get("url") == origin_url:
+        return True
+    return False
