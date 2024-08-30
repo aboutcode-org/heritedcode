@@ -4,7 +4,7 @@
 # ScanCode is a trademark of nexB Inc.
 # SPDX-License-Identifier: Apache-2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for the license text.
-# See https://github.com/nexB/scancode-toolkit for support or download.
+# See https://github.com/aboutcode-org/scancode-toolkit for support or download.
 # See https://aboutcode.org for more information about nexB OSS projects.
 #
 import hashlib
@@ -78,7 +78,8 @@ def create_or_update_release_and_upload_directory(
     }
 
     # compute what is new, modified or unchanged
-    print(f"Compute which files is new, modified or unchanged in {release_homepage_url}")
+    print(
+        f"Compute which files is new, modified or unchanged in {release_homepage_url}")
 
     new_to_upload = []
     unchanged_to_skip = []
@@ -150,7 +151,8 @@ TOKEN_HELP = (
     "-d",
     "--directory",
     help="The directory that contains files to upload to the release.",
-    type=click.Path(exists=True, readable=True, path_type=str, file_okay=False, resolve_path=True),
+    type=click.Path(exists=True, readable=True, path_type=str,
+                    file_okay=False, resolve_path=True),
     required=True,
 )
 @click.option(

@@ -5,7 +5,7 @@
 # ScanCode is a trademark of nexB Inc.
 # SPDX-License-Identifier: Apache-2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for the license text.
-# See https://github.com/nexB/skeleton for support or download.
+# See https://github.com/aboutcode-org/skeleton for support or download.
 # See https://aboutcode.org for more information about nexB OSS projects.
 #
 
@@ -32,7 +32,8 @@ from utils_thirdparty import PypiPackage
 @click.option(
     "-d",
     "--thirdparty-dir",
-    type=click.Path(exists=True, readable=True, path_type=str, file_okay=False),
+    type=click.Path(exists=True, readable=True,
+                    path_type=str, file_okay=False),
     metavar="DIR",
     default=utils_thirdparty.THIRDPARTY_DIR,
     show_default=True,
@@ -116,10 +117,12 @@ def bootstrap(
     required_name_versions = set()
 
     for req_file in requirements_files:
-        nvs = utils_thirdparty.load_requirements(requirements_file=req_file, force_pinned=False)
+        nvs = utils_thirdparty.load_requirements(
+            requirements_file=req_file, force_pinned=False)
         required_name_versions.update(nvs)
     if latest_version:
-        required_name_versions = set((name, None) for name, _ver in required_name_versions)
+        required_name_versions = set((name, None)
+                                     for name, _ver in required_name_versions)
 
     print(
         f"PROCESSING {len(required_name_versions)} REQUIREMENTS in {len(requirements_files)} FILES"
@@ -150,9 +153,11 @@ def bootstrap(
             )
         )
         if local_pack:
-            supported_wheels = list(local_pack.get_supported_wheels(environment=envt))
+            supported_wheels = list(
+                local_pack.get_supported_wheels(environment=envt))
             if supported_wheels:
-                available_wheel_filenames.extend(w.filename for w in supported_wheels)
+                available_wheel_filenames.extend(
+                    w.filename for w in supported_wheels)
                 print(
                     f"====> No fetch or build needed. "
                     f"Local wheel already available for {name}=={version} "
@@ -168,7 +173,8 @@ def bootstrap(
             )
         )
 
-    print(f"==> TRYING TO FETCH #{len(name_version_envt_to_fetch)} REQUIRED WHEELS")
+    print(
+        f"==> TRYING TO FETCH #{len(name_version_envt_to_fetch)} REQUIRED WHEELS")
 
     # list of (name, version, environment) not fetch and to build
     name_version_envt_to_build = []
@@ -228,7 +234,8 @@ def bootstrap(
     utils_thirdparty.fetch_missing_sources(dest_dir=thirdparty_dir)
 
     print(f"==> FETCHING ABOUT AND LICENSE FILES")
-    utils_thirdparty.add_fetch_or_update_about_and_license_files(dest_dir=thirdparty_dir)
+    utils_thirdparty.add_fetch_or_update_about_and_license_files(
+        dest_dir=thirdparty_dir)
 
     ############################################################################
     if sync_dejacode:

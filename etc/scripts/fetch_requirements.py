@@ -5,7 +5,7 @@
 # ScanCode is a trademark of nexB Inc.
 # SPDX-License-Identifier: Apache-2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for the license text.
-# See https://github.com/nexB/skeleton for support or download.
+# See https://github.com/aboutcode-org/skeleton for support or download.
 # See https://aboutcode.org for more information about nexB OSS projects.
 #
 import itertools
@@ -29,7 +29,8 @@ import utils_thirdparty
 @click.option(
     "-d",
     "--thirdparty-dir",
-    type=click.Path(exists=True, readable=True, path_type=str, file_okay=False),
+    type=click.Path(exists=True, readable=True,
+                    path_type=str, file_okay=False),
     metavar="DIR",
     default=utils_thirdparty.THIRDPARTY_DIR,
     show_default=True,
@@ -119,7 +120,8 @@ def fetch_requirements(
 
     if not only_sources:
         envs = itertools.product(python_versions, operating_systems)
-        envs = (utils_thirdparty.Environment.from_pyver_and_os(pyv, os) for pyv, os in envs)
+        envs = (utils_thirdparty.Environment.from_pyver_and_os(pyv, os)
+                for pyv, os in envs)
 
         for env, reqf in itertools.product(envs, requirements_files):
 
@@ -147,7 +149,8 @@ def fetch_requirements(
                     print("Failed to fetch source:", package, ":", error)
 
     if with_about:
-        utils_thirdparty.add_fetch_or_update_about_and_license_files(dest_dir=thirdparty_dir)
+        utils_thirdparty.add_fetch_or_update_about_and_license_files(
+            dest_dir=thirdparty_dir)
         utils_thirdparty.find_problems(
             dest_dir=thirdparty_dir,
             report_missing_sources=with_sources or only_sources,

@@ -3,7 +3,7 @@
 # heritedcode is a trademark of nexB Inc.
 # SPDX-License-Identifier: Apache-2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for the license text.
-# See https://github.com/nexB/heritedcode for support or download.
+# See https://github.com/aboutcode-org/heritedcode for support or download.
 # See https://aboutcode.org for more information about nexB OSS projects.
 #
 
@@ -48,6 +48,7 @@ def test_get_content_information(requests_mock):
     requests_mock.get(api, json=json_output)
 
     assert (
-        heritedcode_api_functions.get_content_information(checksum_type, checksum)
+        heritedcode_api_functions.get_content_information(
+            checksum_type, checksum)
         == expected_output
     )

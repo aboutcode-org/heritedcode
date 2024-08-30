@@ -5,7 +5,7 @@
 # ScanCode is a trademark of nexB Inc.
 # SPDX-License-Identifier: Apache-2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for the license text.
-# See https://github.com/nexB/skeleton for support or download.
+# See https://github.com/aboutcode-org/skeleton for support or download.
 # See https://aboutcode.org for more information about nexB OSS projects.
 #
 
@@ -54,7 +54,8 @@ TRACE_DEEP = False
     "-d",
     "--dest",
     "dest_dir",
-    type=click.Path(exists=True, readable=True, path_type=str, file_okay=False),
+    type=click.Path(exists=True, readable=True,
+                    path_type=str, file_okay=False),
     metavar="DIR",
     default=utils_thirdparty.THIRDPARTY_DIR,
     show_default=True,
@@ -187,7 +188,8 @@ def fetch_thirdparty(
     environments = None
     if wheels:
         evts = itertools.product(python_versions, operating_systems)
-        environments = [utils_thirdparty.Environment.from_pyver_and_os(pyv, os) for pyv, os in evts]
+        environments = [utils_thirdparty.Environment.from_pyver_and_os(
+            pyv, os) for pyv, os in evts]
 
     # Collect PyPI repos
     repos = []
@@ -227,7 +229,8 @@ def fetch_thirdparty(
                 if fwfns:
                     wheels_fetched.extend(fwfns)
                 else:
-                    wheels_not_found.append(f"{name}=={version} for: {environment}")
+                    wheels_not_found.append(
+                        f"{name}=={version} for: {environment}")
                     if TRACE:
                         print(f"      NOT FOUND")
 
@@ -258,7 +261,8 @@ def fetch_thirdparty(
             print(f"  {sd}")
 
     print(f"==> FETCHING OR CREATING ABOUT AND LICENSE FILES")
-    utils_thirdparty.fetch_abouts_and_licenses(dest_dir=dest_dir, use_cached_index=use_cached_index)
+    utils_thirdparty.fetch_abouts_and_licenses(
+        dest_dir=dest_dir, use_cached_index=use_cached_index)
     utils_thirdparty.clean_about_files(dest_dir=dest_dir)
 
     # check for problems

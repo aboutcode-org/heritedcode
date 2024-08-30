@@ -5,7 +5,7 @@
 # ScanCode is a trademark of nexB Inc.
 # SPDX-License-Identifier: Apache-2.0
 # See http://www.apache.org/licenses/LICENSE-2.0 for the license text.
-# See https://github.com/nexB/skeleton for support or download.
+# See https://github.com/aboutcode-org/skeleton for support or download.
 # See https://aboutcode.org for more information about nexB OSS projects.
 #
 import click
@@ -17,7 +17,8 @@ import utils_thirdparty
 @click.option(
     "-d",
     "--thirdparty-dir",
-    type=click.Path(exists=True, readable=True, path_type=str, file_okay=False),
+    type=click.Path(exists=True, readable=True,
+                    path_type=str, file_okay=False),
     required=True,
     help="Path to the thirdparty directory to fix.",
 )
@@ -75,10 +76,12 @@ def fix_thirdparty_dir(
         )
     else:
         print("***FETCH*** MISSING WHEELS")
-        package_envts_not_fetched = utils_thirdparty.fetch_missing_wheels(dest_dir=thirdparty_dir)
+        package_envts_not_fetched = utils_thirdparty.fetch_missing_wheels(
+            dest_dir=thirdparty_dir)
         print("***FETCH*** MISSING SOURCES")
-        src_name_ver_not_fetched = utils_thirdparty.fetch_missing_sources(dest_dir=thirdparty_dir)
-    
+        src_name_ver_not_fetched = utils_thirdparty.fetch_missing_sources(
+            dest_dir=thirdparty_dir)
+
         package_envts_not_built = []
         if build_wheels:
             print("***BUILD*** MISSING WHEELS")
@@ -89,7 +92,7 @@ def fix_thirdparty_dir(
                 dest_dir=thirdparty_dir,
             )
             package_envts_not_built, _wheel_filenames_built = results
-    
+
         print("***ADD*** ABOUT AND LICENSES")
         utils_thirdparty.add_fetch_or_update_about_and_license_files(
             dest_dir=thirdparty_dir,
@@ -99,7 +102,7 @@ def fix_thirdparty_dir(
         # report issues
         for name, version in src_name_ver_not_fetched:
             print(f"{name}=={version}: Failed to fetch source distribution.")
-    
+
         for package, envt in package_envts_not_built:
             print(
                 f"{package.name}=={package.version}: Failed to build wheel "
