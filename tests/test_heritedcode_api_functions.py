@@ -52,3 +52,21 @@ def test_get_content_information(requests_mock):
             checksum_type, checksum)
         == expected_output
     )
+
+
+def test_is_origin_present(requests_mock):
+    # input data
+    origin_url = "https://github.com/nexB/scancode-toolkit"
+
+    json_output = [
+        {
+            "origin_visits_url": "https://archive.softwareheritage.org/api/1/origin/https://github.com/nexB/scancode-toolkit/visits/",
+            "url": "https://github.com/nexB/scancode-toolkit",
+        }
+    ]
+    expected_output = True
+
+    api = f"{BASE_SWH_API_URL}origin/search/{origin_url}?limit=1"
+    requests_mock.get(api, json=json_output)
+
+    assert heritedcode_api_functions.is_origin_present(origin_url) == expected_output
